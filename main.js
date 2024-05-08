@@ -119,12 +119,10 @@ function detectarColision(circulo1, circulo2) {
 function updateCircle() {
     ctx.clearRect(0, 0, window_width, window_height);
 
-    // Reiniciar colores a azul
     arrayCircle.forEach(circle => {
-        circle.color = "blue";
+        circle.color = "white";
     });
 
-    // Verificar colisiones
     for (let i = 0; i < arrayCircle.length; i++) {
         let circle = arrayCircle[i];
         for (let j = i + 1; j < arrayCircle.length; j++) {
@@ -133,19 +131,15 @@ function updateCircle() {
                 circle.color = "red";
                 otherCircle.color = "red";
                 
-                // Calcular el ángulo de la colisión
                 let angle = Math.atan2(otherCircle.posY - circle.posY, otherCircle.posX - circle.posX);
                 
-                // Calcular la distancia de traslación
                 let overlap = circle.radius + otherCircle.radius - getDistance(circle.posX, circle.posY, otherCircle.posX, otherCircle.posY);
                 
-                // Mover los círculos para que no se superpongan
                 circle.posX -= overlap * Math.cos(angle) / 2;
                 circle.posY -= overlap * Math.sin(angle) / 2;
                 otherCircle.posX += overlap * Math.cos(angle) / 2;
                 otherCircle.posY += overlap * Math.sin(angle) / 2;
                 
-                // Calcular las nuevas velocidades
                 let normalX = Math.cos(angle);
                 let normalY = Math.sin(angle);
                 let tangentX = -normalY;
@@ -159,7 +153,6 @@ function updateCircle() {
                 let circleSpeedNormalAfter = otherCircleSpeedNormal;
                 let otherCircleSpeedNormalAfter = circleSpeedNormal;
                 
-                // Actualizar las velocidades de los círculos
                 circle.dx = circleSpeedNormalAfter * normalX + circleSpeedTangent * tangentX;
                 circle.dy = circleSpeedNormalAfter * normalY + circleSpeedTangent * tangentY;
                 otherCircle.dx = otherCircleSpeedNormalAfter * normalX + otherCircleSpeedTangent * tangentX;
@@ -167,8 +160,6 @@ function updateCircle() {
             }
         }
     }
-
-    // Dibujar y actualizar
     arrayCircle.forEach(circle => {
         circle.update(ctx);
     });
